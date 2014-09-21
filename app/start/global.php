@@ -51,6 +51,12 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+
+App::error(function(Illuminate\Session\TokenMismatchException $exception)
+{
+    return 'A security error occured, please try again later.';
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
