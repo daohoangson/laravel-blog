@@ -7,3 +7,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 .project
+
+tests/_output/*

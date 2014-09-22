@@ -34,8 +34,7 @@ class AuthController extends BaseController
         $remember = !empty($remember);
         if (Auth::attempt($input, $remember)) {
             return Redirect::intended();
-        }
-        else {
+        } else {
             return Redirect::to('/auth/login')->withInput()->withErrors(array('password' => 'Invalid email or password.'));
         }
     }
