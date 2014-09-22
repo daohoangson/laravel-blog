@@ -36,6 +36,17 @@ class RegisterController extends BaseController
         $user->password = Hash::make($input['password']);
         $user->save();
 
+        if (User::all()->count() == 1) {
+            // this is the first user
+            $user->roles()->attach(array(
+                1,
+                2,
+                3
+            ));
+        } else {
+            $user->roles()->attach(3);
+        }
+
         Auth::attempt($input);
         return Redirect::to('/');
     }
