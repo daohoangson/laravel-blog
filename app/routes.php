@@ -1,10 +1,11 @@
 <?php
 
 Route::model('user', 'User');
+Route::model('entry', 'Entry');
 
 Route::get('', array(
     'as' => 'index',
-    'uses' => 'HomeController@showWelcome'
+    'uses' => 'EntryController@showList'
 ));
 
 Route::get('register', array(
@@ -24,7 +25,7 @@ Route::post('auth/login', array(
     'as' => 'login',
     'uses' => 'AuthController@processLogin'
 ));
-Route::post('auth/logout', array(
+Route::get('auth/logout', array(
     'as' => 'logout',
     'uses' => 'AuthController@processLogout'
 ));
@@ -46,6 +47,36 @@ Route::get('users/{user}', array(
 ));
 Route::post('users/save', array(
     'as' => 'user_save',
-    'before' => 'auth',
+    'before' => array('auth', 'csrf'),
     'uses' => 'UserController@processSave',
+));
+
+Route::get('entries/create', array(
+    'as' => 'entry_create',
+    'before' => 'auth',
+    'uses' => 'EntryController@showCreate'
+));
+Route::get('entries/{entry}/edit', array(
+    'as' => 'entry_edit',
+    'before' => 'auth',
+    'uses' => 'EntryController@showEdit'
+));
+Route::post('entries/save', array(
+    'as' => 'entry_save',
+    'before' => array('auth', 'csrf'),
+    'uses' => 'EntryController@processSave',
+));
+Route::get('entries/{id}/delete', array(
+    'as' => 'entry_delete',
+    'before' => 'auth',
+    'uses' => 'EntryController@showDelete'
+));
+Route::post('entries/{id}/delete', array(
+    'as' => 'entry_delete',
+    'before' => array('auth', 'csrf'),
+    'uses' => 'EntryController@processDelete',
+));
+Route::get('entries/{entry}', array(
+    'as' => 'entry_view',
+    'uses' => 'EntryController@showView'
 ));

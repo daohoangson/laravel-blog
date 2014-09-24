@@ -3,8 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleUserTable extends Migration
+class AlterEntriesForSoftDeletes extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -12,10 +13,9 @@ class CreateRoleUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function(Blueprint $table)
+        Schema::table('entries', function(Blueprint $table)
         {
-            $table->unsignedInteger('role_id');
-            $table->unsignedInteger('user_id');
+            $table->softDeletes();
         });
     }
 
@@ -26,7 +26,7 @@ class CreateRoleUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('role_user');
+        //
     }
 
 }

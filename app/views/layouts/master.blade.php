@@ -27,9 +27,13 @@
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="{{{ route('index') }}}">Index</a></li>
-						@if ( Auth::guest() )
+						@if (Auth::guest())
 							<li>{{ HTML::link(route('login'), 'Login') }}</li>
+							<li>{{ HTML::link(route('register'), 'Register') }}</li>
 						@else
+							@if (Auth::user()->canCreateEntry())
+								<li>{{ HTML::link(route('entry_create'), 'Create New Entry') }}</li>
+							@endif
 							<li>{{ HTML::link(route('profile'), Auth::user()->email) }}</li>
 							<li>{{ HTML::link(route('logout'), 'Logout') }}</li>
 						@endif
