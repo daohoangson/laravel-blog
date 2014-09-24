@@ -49,7 +49,7 @@ class UserController extends BaseController
         }
 
         if ($input['email'] != $user->email) {
-            $userWithEmail = User::where('email', '=', $user->email)->first();
+            $userWithEmail = User::where('email', '=', $input['email'])->first();
             if (!empty($userWithEmail)) {
                 return Redirect::route('user_view', $user->id)->withInput()->withErrors(array('email' => 'The email has already been taken.'));
             }
