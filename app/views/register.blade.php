@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-	{{ Form::open(array('url' => '/register', 'class' => 'col-sm-12 col-md-offset-4 col-md-4')) }}
+	{{ Form::open(array('url' => route('register'), 'class' => 'col-sm-12 col-md-offset-4 col-md-4')) }}
 
 		<div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
 			{{ Form::label('email', 'Email') }}

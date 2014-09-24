@@ -26,12 +26,12 @@
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="{{{ URL::to('/') }}}">Index</a></li>
+						<li><a href="{{{ route('index') }}}">Index</a></li>
 						@if ( Auth::guest() )
-							<li>{{ HTML::link('/auth/login', 'Login') }}</li>
+							<li>{{ HTML::link(route('login'), 'Login') }}</li>
 						@else
-							<li>{{ HTML::link('/profile', Auth::user()->email) }}</li>
-							<li>{{ HTML::link('/auth/logout', 'Logout') }}</li>
+							<li>{{ HTML::link(route('profile'), Auth::user()->email) }}</li>
+							<li>{{ HTML::link(route('logout'), 'Logout') }}</li>
 						@endif
 					</ul>
 			 	</div>

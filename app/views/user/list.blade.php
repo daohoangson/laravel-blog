@@ -15,7 +15,7 @@
 			@foreach ($users as $user)
 				<tr>
 					<td>{{{ $user->id }}}</td>
-					<td>{{ HTML::link('/users/' . $user->id, $user->email) }}</td>
+					<td>{{ HTML::link(route('user_view', $user->id), $user->email) }}</td>
 					<td>
 						@foreach ($user->roles as $role)
 							{{{ $role->title }}}

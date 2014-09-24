@@ -11,18 +11,11 @@ class UserController extends BaseController
 
     public function showProfile()
     {
-        $user = User::find(Auth::user()->id);
-
-        return View::make('user/view', array('user' => $user));
+        return View::make('user/view', array('user' => Auth::user()));
     }
 
-    public function showView($id)
+    public function showView($user)
     {
-        $user = User::find($id);
-        if (empty($user)) {
-            return 'The specified user could not be found.';
-        }
-
         return View::make('user/view', array('user' => $user));
     }
 
@@ -52,13 +45,13 @@ class UserController extends BaseController
         ));
 
         if ($validator->fails()) {
-            return Redirect::to('/users/' . $user->id)->withInput()->withErrors($validator);
+            return Redirect::route('user_view', $user->id)->withInput()->withErrors($validator);
         }
 
         if ($input['email'] != $user->email) {
             $userWithEmail = User::where('email', '=', $user->email)->first();
             if (!empty($userWithEmail)) {
-                return Redirect::to('/users/' . $user->id)->withInput()->withErrors(array('email' => 'The email has already been taken.'));
+                return Redirect::route('user_view', $user->id)->withInput()->withErrors(array('email' => 'The email has already been taken.'));
             }
 
             $user->email = $input['email'];
@@ -81,7 +74,7 @@ class UserController extends BaseController
             $user->roles()->sync($inputRoles);
         }
 
-        return Redirect::to('/users/' . $user->id);
+        return Redirect::route('user_view', $user->id);
     }
 
 }

@@ -7,7 +7,7 @@ class AuthController extends BaseController
     {
         if (Auth::check()) {
             // Auth reported that user is logged it, redirect to index page
-            return Redirect::to('/');
+            return Redirect::route('index');
         }
 
         // show the login form
@@ -27,7 +27,7 @@ class AuthController extends BaseController
         ));
 
         if ($validator->fails()) {
-            return Redirect::to('/auth/login')->withInput()->withErrors($validator);
+            return Redirect::route('login')->withInput()->withErrors($validator);
         }
 
         $remember = Input::get('remember');
@@ -35,7 +35,7 @@ class AuthController extends BaseController
         if (Auth::attempt($input, $remember)) {
             return Redirect::intended();
         } else {
-            return Redirect::to('/auth/login')->withInput()->withErrors(array('password' => 'Invalid email or password.'));
+            return Redirect::route('login')->withInput()->withErrors(array('password' => 'Invalid email or password.'));
         }
     }
 

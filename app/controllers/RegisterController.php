@@ -28,7 +28,7 @@ class RegisterController extends BaseController
         ));
 
         if ($validator->fails()) {
-            return Redirect::to('/register')->withInput()->withErrors($validator);
+            return Redirect::route('register')->withInput()->withErrors($validator);
         }
 
         $user = new User();
@@ -48,7 +48,7 @@ class RegisterController extends BaseController
         }
 
         Auth::attempt($input);
-        return Redirect::to('/');
+        return Redirect::route('index');
     }
 
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-	{{ Form::open(array('url' => '/auth/login', 'class' => 'col-sm-12 col-md-offset-4 col-md-4')) }}
+	{{ Form::open(array('url' => route('login'), 'class' => 'col-sm-12 col-md-offset-4 col-md-4')) }}
 
 		<div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
 			{{ Form::label('email', 'Email') }}
@@ -24,7 +24,7 @@
 		</div>
 
 		{{ Form::submit('Login', array('class' => 'btn btn-default')) }}
-		{{ HTML::link('/register', 'Register', array('class' => 'btn')) }}
+		{{ HTML::link(route('register'), 'Register', array('class' => 'btn')) }}
 
 	{{ Form::close() }}
 </div>
