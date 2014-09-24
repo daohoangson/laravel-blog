@@ -38,13 +38,19 @@ class RegisterController extends BaseController
 
         if (User::all()->count() == 1) {
             // this is the first user
-            $user->roles()->attach(array(
-                1,
-                2,
-                3
-            ));
+            // attach all roles
+            $roles = Role::all();
+			$roleIds = array();
+			foreach ($roles as $role)
+			{
+				$roleIds[] = $role->id;
+			}
+			
+            $user->roles()->attach($roleIds);
         } else {
-            $user->roles()->attach(3);
+        	// attach reader role
+        	$readerRole = Role::where('title', '=', 'Reader')->first();
+            $user->roles()->attach($readerRole->id);
         }
 
         Auth::attempt($input);

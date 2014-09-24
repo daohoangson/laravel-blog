@@ -68,7 +68,11 @@ class UserController extends BaseController
 
             if ($authUser->id == $user->id) {
                 // make sure admin doesn't self revoke his/her admin right
-                $inputRoles = array_unique(array_merge($inputRoles, array(1)));
+                foreach ($authUser->roles as $role) {
+                    if ($role->title === 'Administrator') {
+                        $inputRoles[] = $role->id;
+                    }
+                }
             }
 
             $user->roles()->sync($inputRoles);

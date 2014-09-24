@@ -34,17 +34,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function isAdministrator()
     {
-        return $this->roles->contains(1);
+    	return $this->_hasRoleTitle('Administrator');
     }
 
     public function isEditor()
     {
-        return $this->roles->contains(2);
+        return $this->_hasRoleTitle('Editor');
     }
 
     public function isReader()
     {
-        return $this->roles->contains(3);
+        return $this->_hasRoleTitle('Reader');
     }
 
     public function canEditUser(User $user)
@@ -59,5 +59,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
         return false;
     }
+	
+	protected function _hasRoleTitle($title)
+	{
+		$found = false;
+        $this->roles->each(function($role) use ($title, &$found) {
+        	if ($role->title == $title)
+			{
+				$found = true;
+			}
+        });
+
+		return $found;
+	}
 
 }
