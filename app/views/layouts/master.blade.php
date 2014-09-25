@@ -27,6 +27,7 @@
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="{{{ route('index') }}}">Index</a></li>
+						<li><a href="{{{ route('user_list') }}}">Users</a></li>
 						@if (Auth::guest())
 							<li>{{ HTML::link(route('login'), 'Login') }}</li>
 							<li>{{ HTML::link(route('register'), 'Register') }}</li>
