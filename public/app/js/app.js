@@ -20,6 +20,14 @@ blogApp.config(function($httpProvider, $routeProvider, $locationProvider)
         templateUrl: '/app/views/entry/view.html',
         controller: 'EntryController'
     });
+    $routeProvider.when('/entries/:id/:action',
+    {
+        templateUrl: function($routeParams)
+        {
+            return '/app/views/entry/' + $routeParams['action'] + '.html';
+        },
+        controller: 'EntryController'
+    });
 
     $locationProvider.html5Mode(true);
 });

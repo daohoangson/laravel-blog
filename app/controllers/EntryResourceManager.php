@@ -55,19 +55,22 @@ class EntryResourceManager extends \BaseController
 
         return $this->_responseEntry($entry);
     }
-	
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$entry = Entry::find($id);
-		
-		return $this->_responseEntry($entry);
-	}
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $entry = Entry::find($id);
+		if (empty($entry)) {
+            App::abort(404);
+        }
+
+        return $this->_responseEntry($entry);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -82,7 +85,7 @@ class EntryResourceManager extends \BaseController
             App::abort(404);
         }
 
-        if (!Auth::users()->canEditEntry($entry)) {
+        if (Auth::guest() OR !Auth::user()->canEditEntry($entry)) {
             App::abort(403);
         }
 
@@ -97,7 +100,7 @@ class EntryResourceManager extends \BaseController
         ));
 
         $entry->title = $input['title'];
-        $entry->body = $title['body'];
+        $entry->body = $input['body'];
 
         if ($validator->fails()) {
             return Response::json(array('errors' => $validator->messages()));
@@ -121,7 +124,7 @@ class EntryResourceManager extends \BaseController
             App::abort(404);
         }
 
-        if (!Auth::users()->canEditEntry($entry)) {
+        if (Auth::guest() OR !Auth::user()->canEditEntry($entry)) {
             App::abort(403);
         }
 
@@ -129,11 +132,11 @@ class EntryResourceManager extends \BaseController
 
         return Response::json(array('success' => true));
     }
-	
-	protected function _responseEntry(Entry $entry)
-	{
-		return Response::json(array('entry' => $this->_prepareEntry($entry->toArray())));
-	}
+
+    protected function _responseEntry(Entry $entry)
+    {
+        return Response::json(array('entry' => $this->_prepareEntry($entry->toArray())));
+    }
 
     protected function _prepareEntries(array $entries)
     {

@@ -28,7 +28,7 @@ angular.module('entryService', []).factory('Entry', function($http)
         {
             return $http(
             {
-                method: 'POST',
+                method: 'PUT',
                 url: '/resources/entries/' + entry.id,
                 data: entry
             });

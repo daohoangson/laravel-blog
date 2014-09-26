@@ -10,6 +10,8 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
     $scope.currentPage = 1;
 
     $scope.entry = null;
+    $scope.delete = false;
+    $scope.errors = null;
 
     $scope.changePage = function()
     {
@@ -39,6 +41,57 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         $event.preventDefault();
     };
 
+    $scope.save = function($event)
+    {
+        var onSaved = function(data)
+        {
+            if (data.errors)
+            {
+                $scope.errors = data.errors;
+                return false;
+            }
+
+            if (data.entry)
+            {
+                $scope.entry = entry;
+                return true;
+            }
+        };
+
+        if ($scope.entry.id)
+        {
+            if ($scope.delete)
+            {
+                // deleting
+                Entry.destroy($scope.entry.id).success(function(data)
+                {
+                    if (data.success)
+                    {
+                        $location.path('/entries');
+                    }
+                    else
+                    {
+                        // handle errors and stuff
+                        onSaved(data);
+                    }
+                });
+            }
+            else
+            {
+                // updating
+                Entry.update($scope.entry).success(onSaved);
+            }
+        }
+        else
+        {
+            // creating
+            Entry.store($scope.entry).success(onSaved);
+            ;
+        }
+
+        $event.preventDefault();
+    };
+
     $scope.delete = function($event, entryId)
     {
         console.log('delete', entryId);
@@ -55,7 +108,7 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         {
             if (cachedEntries[i].id == $routeParams.id)
             {
-               $scope.entry = cachedEntries[i];
+                $scope.entry = cachedEntries[i];
             }
         }
 
