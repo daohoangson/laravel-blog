@@ -64,9 +64,18 @@ class EntryResourceManager extends \BaseController
      */
     public function show($id)
     {
-        $entry = Entry::find($id);
-		if (empty($entry)) {
+        $entry = Entry::withTrashed()->find($id);
+        if (empty($entry)) {
             App::abort(404);
+        }
+
+        if (empty($entry->deleted_at)) {
+            // public entry
+        } else {
+            // deleted entry, check for permission
+            if (Auth::guest() OR !Auth::user()->canDeleteEntry($entry)) {
+                App::abort(403);
+            }
         }
 
         return $this->_responseEntry($entry);
@@ -80,6 +89,21 @@ class EntryResourceManager extends \BaseController
      */
     public function update($id)
     {
+        if (Input::get('restore')) {
+            $entry = Entry::onlyTrashed()->find($id);
+            if (empty($entry)) {
+                App::abort(404);
+            }
+
+            if (Auth::guest() OR !Auth::user()->canDeleteEntry($entry)) {
+                App::abort(403);
+            }
+
+            $entry->restore();
+
+            return $this->_responseEntry($entry);
+        }
+
         $entry = Entry::find($id);
         if (empty($entry)) {
             App::abort(404);
@@ -119,16 +143,20 @@ class EntryResourceManager extends \BaseController
      */
     public function destroy($id)
     {
-        $entry = Entry::find($id);
+        $entry = Entry::withTrashed()->find($id);
         if (empty($entry)) {
             App::abort(404);
         }
 
-        if (Auth::guest() OR !Auth::user()->canEditEntry($entry)) {
+        if (Auth::guest() OR !Auth::user()->canDeleteEntry($entry)) {
             App::abort(403);
         }
 
-        $entry->delete();
+        if (Input::get('hard_delete')) {
+            $entry->forceDelete();
+        } else {
+            $entry->delete();
+        }
 
         return Response::json(array('success' => true));
     }

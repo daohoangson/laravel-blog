@@ -11,6 +11,7 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
 
     $scope.entry = null;
     $scope.delete = false;
+    $scope.action = 'restore';
     $scope.errors = null;
 
     $scope.changePage = function()
@@ -86,7 +87,6 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         {
             // creating
             Entry.store($scope.entry).success(onSaved);
-            ;
         }
 
         $event.preventDefault();
@@ -94,7 +94,31 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
 
     $scope.delete = function($event, entryId)
     {
-        console.log('delete', entryId);
+        $location.path('/entries/' + entryId + '/delete');
+
+        $event.preventDefault();
+    };
+
+    $scope.hardDeleteOrRestore = function($event)
+    {
+        var onDone = function(data)
+        {
+            $location.path('/entries');
+        };
+
+        if ($scope.action == 'hard_delete')
+        {
+            // hard deleting
+            Entry.destroy($scope.entry.id, true).success(onDone);
+        }
+        else
+        {
+            // restoring
+            var data = $scope.entry;
+            data.restore = 1;
+
+            Entry.update(data).success(onDone);
+        }
 
         $event.preventDefault();
     };

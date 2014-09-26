@@ -34,9 +34,15 @@ angular.module('entryService', []).factory('Entry', function($http)
             });
         },
 
-        destroy: function(id)
+        destroy: function(id, hardDelete)
         {
-            return $http.delete('/resources/entries/' + id);
+            return $http.delete('/resources/entries/' + id,
+            {
+                params:
+                {
+                    hard_delete: hardDelete ? 1 : 0
+                }
+            });
         }
     };
 
