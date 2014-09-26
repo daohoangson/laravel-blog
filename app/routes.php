@@ -3,7 +3,7 @@
 Route::model('user', 'User');
 Route::model('entry', 'Entry');
 
-Route::get('', array(
+Route::get('entries', array(
     'as' => 'index',
     'uses' => 'EntryController@showList'
 ));
@@ -47,7 +47,10 @@ Route::get('users/{user}', array(
 ));
 Route::post('users/save', array(
     'as' => 'user_save',
-    'before' => array('auth', 'csrf'),
+    'before' => array(
+        'auth',
+        'csrf'
+    ),
     'uses' => 'UserController@processSave',
 ));
 
@@ -63,7 +66,10 @@ Route::get('entries/{entry}/edit', array(
 ));
 Route::post('entries/save', array(
     'as' => 'entry_save',
-    'before' => array('auth', 'csrf'),
+    'before' => array(
+        'auth',
+        'csrf'
+    ),
     'uses' => 'EntryController@processSave',
 ));
 Route::get('entries/{id}/delete', array(
@@ -73,10 +79,27 @@ Route::get('entries/{id}/delete', array(
 ));
 Route::post('entries/{id}/delete', array(
     'as' => 'entry_delete',
-    'before' => array('auth', 'csrf'),
+    'before' => array(
+        'auth',
+        'csrf'
+    ),
     'uses' => 'EntryController@processDelete',
 ));
 Route::get('entries/{entry}', array(
     'as' => 'entry_view',
     'uses' => 'EntryController@showView'
 ));
+
+Route::get('', array(
+    'as' => 'angular',
+    'uses' => 'AngularController@show'
+));
+Route::group(array('prefix' => 'resources'), function()
+{
+    Route::resource('entries', 'EntryResourceManager', array('only' => array(
+            'index',
+            'store',
+            'update',
+            'destroy'
+        )));
+});

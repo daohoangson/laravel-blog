@@ -1,0 +1,5 @@
+<span>Views: {{ entry.views }}</span>
+
+<a ng-href="/entries/{{ entry.id }}/edit" ng-show="entry.canEditEntry" ng-click="edit($event, entry.id)">Edit</a>
+
+<a ng-href="/entries/{{ entry.id }}/delete" ng-show="entry.canDeleteEntry" ng-click="delete($event, entry.id)">Restore / Hard Delete</a>

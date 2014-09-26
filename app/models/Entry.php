@@ -8,6 +8,8 @@ class Entry extends Eloquent
 
 	protected $table = 'entries';
 
+	protected $guarded = array();
+
 	public function user()
     {
         return $this->belongsTo('User');

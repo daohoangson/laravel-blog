@@ -72,16 +72,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function canEditEntry(Entry $entry)
     {
-    	if (!empty($entry->deleted_at))
+    	if (empty($entry->deleted_at))
 		{
-			return false;
+	        if ($this->isAdministrator()) {
+	            return true;
+	        }
+
+	        if ($entry->user_id == $this->id) {
+	            return true;
+	        }
 		}
 
-        if ($this->isAdministrator()) {
-            return true;
-        }
-
-        if ($entry->user_id == $this->id) {
+        return false;
+    }
+	
+	public function canDeleteEntry(Entry $entry)
+    {
+    	if (!empty($entry->deleted_at) AND $this->isAdministrator()) {
             return true;
         }
 

@@ -9,6 +9,7 @@
 		{{ HTML::style('css/bootstrap-theme.css') }}
 		
 		<style>@yield('style')</style>
+		@yield('head')
 	</head>
 
 	<body>
@@ -26,7 +27,7 @@
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="{{{ route('index') }}}">Index</a></li>
+						<li><a href="{{{ route('index') }}}">Entries</a></li>
 						<li><a href="{{{ route('user_list') }}}">Users</a></li>
 						@if (Auth::guest())
 							<li>{{ HTML::link(route('login'), 'Login') }}</li>
@@ -49,5 +50,6 @@
 
 		{{ HTML::script('js/jquery-1.11.1.min.js') }}
 		{{ HTML::script('js/bootstrap.min.js') }}
+		@yield('foot')
 	</body>
 </html>
