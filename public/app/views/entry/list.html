@@ -3,7 +3,7 @@
 		<h3 class="panel-title">
 			<span class="label label-danger" ng-show="entry.deleted_at">Soft Deleted</span>
 
-			<a href="">{{ entry.title }}</a>
+			<a ng-href="/entries/{{ entry.id }}" ng-click="view($event, entry.id)">{{ entry.title }}</a>
 		</h3>
 	</div>
 	<div class="panel-body">

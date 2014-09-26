@@ -99,6 +99,7 @@ Route::group(array('prefix' => 'resources'), function()
     Route::resource('entries', 'EntryResourceManager', array('only' => array(
             'index',
             'store',
+            'show',
             'update',
             'destroy'
         )));

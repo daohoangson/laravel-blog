@@ -53,8 +53,21 @@ class EntryResourceManager extends \BaseController
 
         $entry->save();
 
-        return Response::json(array('entry' => $entry));
+        return $this->_responseEntry($entry);
     }
+	
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$entry = Entry::find($id);
+		
+		return $this->_responseEntry($entry);
+	}
 
     /**
      * Update the specified resource in storage.
@@ -92,7 +105,7 @@ class EntryResourceManager extends \BaseController
 
         $entry->save();
 
-        return Response::json(array('entry' => $entry));
+        return $this->_responseEntry($entry);
     }
 
     /**
@@ -116,6 +129,11 @@ class EntryResourceManager extends \BaseController
 
         return Response::json(array('success' => true));
     }
+	
+	protected function _responseEntry(Entry $entry)
+	{
+		return Response::json(array('entry' => $this->_prepareEntry($entry->toArray())));
+	}
 
     protected function _prepareEntries(array $entries)
     {
