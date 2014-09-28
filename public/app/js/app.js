@@ -1,6 +1,6 @@
 'use strict';
 
-var blogApp = angular.module('blogApp', ['ngRoute', 'ui.bootstrap', 'mainCtrl', 'entryCtrl', 'entryService']);
+var blogApp = angular.module('blogApp', ['ngRoute', 'ui.bootstrap', 'mainCtrl', 'entryCtrl', 'entryService', 'userCtrl', 'userService']);
 
 blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -34,4 +34,14 @@ blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
         });
 
     $locationProvider.html5Mode(true);
+    $routeProvider.when('/users',
+        {
+            templateUrl: '/app/views/user/list.html',
+            controller: 'UserController'
+        });
+    $routeProvider.when('/users/:id',
+        {
+            templateUrl: '/app/views/user/view.html',
+            controller: 'UserController'
+        });
 });

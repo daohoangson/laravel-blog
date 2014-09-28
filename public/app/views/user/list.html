@@ -1,0 +1,23 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>Email</td>
+            <td>Roles</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{ user.id }}</td>
+            <td><a href="/users/{{ user.id }}" ng-click="view($event, user.id)">{{ user.email }}</a></td>
+            <td>
+                <span ng-repeat="role in user.roles" ng-if="role.isUserRole">
+                    {{ role.title }}
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -43,14 +43,13 @@ class EntryResourceManager extends \BaseController
             'body' => array('required'),
         ));
 
-        $entry = new Entry();
-        $entry->title = $input['title'];
-        $entry->body = $input['body'];
-
         if ($validator->fails()) {
             return Response::json(array('errors' => $validator->messages()));
         }
 
+        $entry = new Entry();
+        $entry->title = $input['title'];
+        $entry->body = $input['body'];
         $entry->save();
 
         return $this->_responseEntry($entry);
@@ -123,13 +122,12 @@ class EntryResourceManager extends \BaseController
             'body' => array('required'),
         ));
 
-        $entry->title = $input['title'];
-        $entry->body = $input['body'];
-
         if ($validator->fails()) {
             return Response::json(array('errors' => $validator->messages()));
         }
 
+        $entry->title = $input['title'];
+        $entry->body = $input['body'];
         $entry->save();
 
         return $this->_responseEntry($entry);

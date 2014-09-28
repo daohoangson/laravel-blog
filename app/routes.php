@@ -103,4 +103,11 @@ Route::group(array('prefix' => 'resources'), function()
             'update',
             'destroy'
         )));
+
+    Route::resource('users', 'UserResourceManager', array('only' => array(
+        'index',
+        'store',
+        'show',
+        'update'
+    )));
 });
