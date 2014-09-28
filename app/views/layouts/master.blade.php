@@ -30,14 +30,14 @@
 						<li><a href="{{{ route('index') }}}" ng-click="go($event, '/entries')">Entries</a></li>
 						<li><a href="{{{ route('user_list') }}}" ng-click="go($event, '/users')">Users</a></li>
 						@if (Auth::guest())
-							<li>{{ HTML::link(route('login'), 'Login') }}</li>
-							<li>{{ HTML::link(route('register'), 'Register', array('ng-click' => 'go($event, \'register\')')) }}</li>
+							<li>{{ HTML::link(route('login'), 'Login', array('target' => '_self')) }}</li>
+							<li>{{ HTML::link(route('register'), 'Register', array('target' => '_self')) }}</li>
 						@else
 							@if (Auth::user()->canCreateEntry())
 								<li>{{ HTML::link(route('entry_create'), 'Create New Entry', array('ng-click' => 'go($event, \'entries/create\')')) }}</li>
 							@endif
 							<li>{{ HTML::link(route('profile'), Auth::user()->email, array('ng-click' => 'go($event, \'users/' . Auth::user()->id . '\')')) }}</li>
-							<li>{{ HTML::link(route('logout'), 'Logout') }}</li>
+							<li>{{ HTML::link(route('logout'), 'Logout', array('target' => '_self')) }}</li>
 						@endif
 					</ul>
 			 	</div>
