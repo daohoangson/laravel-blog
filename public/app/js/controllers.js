@@ -3,14 +3,6 @@
 var cachedEntries = null;
 var cachedUsers = null;
 
-angular.module('mainCtrl', []).controller('MainController', function ($scope, $location) {
-    $scope.go = function ($event, path) {
-        $location.path(path);
-
-        $event.preventDefault();
-    };
-});
-
 angular.module('entryCtrl', ['entryService']).controller('EntryController', function ($scope, $route, $routeParams, $location, Entry) {
     $scope.entries = null;
     $scope.totalItems = 0;

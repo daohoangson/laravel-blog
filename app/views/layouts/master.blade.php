@@ -12,7 +12,7 @@
 		@yield('head')
 	</head>
 
-	<body ng-app="blogApp" ng-controller="MainController">
+	<body ng-app="blogApp">
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">

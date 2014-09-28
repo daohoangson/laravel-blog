@@ -1,6 +1,6 @@
 'use strict';
 
-var blogApp = angular.module('blogApp', ['ngRoute', 'ui.bootstrap', 'mainCtrl', 'entryCtrl', 'entryService', 'userCtrl', 'userService']);
+var blogApp = angular.module('blogApp', ['ngRoute', 'ui.bootstrap', 'entryCtrl', 'entryService', 'userCtrl', 'userService']);
 
 blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
