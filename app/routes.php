@@ -30,12 +30,6 @@ Route::get('auth/logout', array(
     'uses' => 'AuthController@processLogout'
 ));
 
-Route::get('profile', array(
-    'as' => 'profile',
-    'before' => 'auth',
-    'uses' => 'UserController@showProfile',
-));
-
 Route::get('users', array(
     'as' => 'user_list',
     'uses' => 'UserController@showList'

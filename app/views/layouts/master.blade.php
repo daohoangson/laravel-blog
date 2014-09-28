@@ -34,9 +34,9 @@
 							<li>{{ HTML::link(route('register'), 'Register', array('target' => '_self')) }}</li>
 						@else
 							@if (Auth::user()->canCreateEntry())
-								<li>{{ HTML::link(route('entry_create'), 'Create New Entry', array('ng-click' => 'go($event, \'entries/create\')')) }}</li>
+								<li>{{ HTML::link(route('entry_create'), 'Create New Entry') }}</li>
 							@endif
-							<li>{{ HTML::link(route('profile'), Auth::user()->email, array('ng-click' => 'go($event, \'users/' . Auth::user()->id . '\')')) }}</li>
+							<li>{{ HTML::link(route('user_view', Auth::user()->id), Auth::user()->email) }}</li>
 							<li>{{ HTML::link(route('logout'), 'Logout', array('target' => '_self')) }}</li>
 						@endif
 					</ul>

@@ -11,7 +11,7 @@
         <tbody>
         <tr ng-repeat="user in users">
             <td>{{ user.id }}</td>
-            <td><a href="/users/{{ user.id }}" ng-click="view($event, user.id)">{{ user.email }}</a></td>
+            <td><a href="/users/{{ user.id }}">{{ user.email }}</a></td>
             <td>
                 <span ng-repeat="role in user.roles" ng-if="role.isUserRole">
                     {{ role.title }}

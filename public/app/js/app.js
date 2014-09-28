@@ -33,7 +33,6 @@ blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
             controller: 'EntryController'
         });
 
-    $locationProvider.html5Mode(true);
     $routeProvider.when('/users',
         {
             templateUrl: '/app/views/user/list.html',
@@ -44,4 +43,6 @@ blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
             templateUrl: '/app/views/user/view.html',
             controller: 'UserController'
         });
+
+    $locationProvider.html5Mode(true);
 });

@@ -9,11 +9,6 @@ class UserController extends BaseController
         return View::make('user/list', array('users' => $users));
     }
 
-    public function showProfile()
-    {
-        return $this->showView(Auth::user());
-    }
-
     public function showView($user)
     {
         if (Auth::guest()) {

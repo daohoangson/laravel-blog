@@ -36,18 +36,6 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         });
     };
 
-    $scope.view = function ($event, entryId) {
-        $location.path('/entries/' + entryId);
-
-        $event.preventDefault();
-    };
-
-    $scope.edit = function ($event, entryId) {
-        $location.path('/entries/' + entryId + '/edit');
-
-        $event.preventDefault();
-    };
-
     $scope.save = function ($event) {
         var onSaved = function (data) {
             if (data.errors) {
@@ -84,12 +72,6 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
             // creating
             Entry.store($scope.entry).success(onSaved);
         }
-
-        $event.preventDefault();
-    };
-
-    $scope.delete = function ($event, entryId) {
-        $location.path('/entries/' + entryId + '/delete');
 
         $event.preventDefault();
     };
@@ -146,18 +128,6 @@ angular.module('userCtrl', ['userService']).controller('UserController', functio
     $scope.user = null;
     $scope.formData = {
         errors: null
-    };
-
-    $scope.view = function ($event, userId) {
-        $location.path('/users/' + userId);
-
-        $event.preventDefault();
-    };
-
-    $scope.edit = function ($event, userId) {
-        $location.path('/users/' + userId + '/edit');
-
-        $event.preventDefault();
     };
 
     $scope.save = function ($event) {
