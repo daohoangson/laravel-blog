@@ -36,7 +36,7 @@
 							@if (Auth::user()->canCreateEntry())
 								<li>{{ HTML::link(route('entry_create'), 'Create New Entry', array('ng-click' => 'go($event, \'entries/create\')')) }}</li>
 							@endif
-							<li>{{ HTML::link(route('profile'), Auth::user()->email, array('ng-click' => 'go($event, \'profile\')')) }}</li>
+							<li>{{ HTML::link(route('profile'), Auth::user()->email, array('ng-click' => 'go($event, \'users/' . Auth::user()->id . '\')')) }}</li>
 							<li>{{ HTML::link(route('logout'), 'Logout') }}</li>
 						@endif
 					</ul>
