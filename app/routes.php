@@ -98,6 +98,11 @@ Route::group(array('prefix' => 'resources'), function()
             'destroy'
         )));
 
+    Route::post('entries/{id}/read', array(
+        'as' => 'resources.entries.read',
+        'uses' => 'EntryResourceManager@read'
+    ));
+
     Route::resource('users', 'UserResourceManager', array('only' => array(
         'index',
         'store',

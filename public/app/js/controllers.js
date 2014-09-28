@@ -11,7 +11,7 @@ angular.module('mainCtrl', []).controller('MainController', function ($scope, $l
     };
 });
 
-angular.module('entryCtrl', ['entryService']).controller('EntryController', function ($scope, $routeParams, $location, Entry) {
+angular.module('entryCtrl', ['entryService']).controller('EntryController', function ($scope, $route, $routeParams, $location, Entry) {
     $scope.entries = null;
     $scope.totalItems = 0;
     $scope.itemsPerPage = 10;
@@ -112,6 +112,15 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
             Entry.get($routeParams.id).success(function (data) {
                 $scope.entry = data.entry;
             });
+        }
+
+        var $templateUrl = $route.current.templateUrl;
+        if (typeof $templateUrl == 'function') {
+            $templateUrl = $templateUrl($routeParams);
+        }
+        if ($templateUrl.indexOf('view.html') > -1)
+        {
+            Entry.read($routeParams['id']);
         }
     }
     else {

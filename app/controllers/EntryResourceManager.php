@@ -159,6 +159,20 @@ class EntryResourceManager extends \BaseController
         return Response::json(array('success' => true));
     }
 
+    public function read($id)
+    {
+        $entry = Entry::find($id);
+        if (empty($entry)) {
+            // read doesn't work for trashed entries
+            App::abort(404);
+        }
+
+        $entry->views++;
+        $entry->save();
+
+        return Response::json(array('success' => true));
+    }
+
     protected function _responseEntry(Entry $entry)
     {
         return Response::json(array('entry' => $this->_prepareEntry($entry->toArray())));

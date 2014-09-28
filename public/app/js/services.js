@@ -36,6 +36,10 @@ angular.module('entryService', []).factory('Entry', function ($http) {
                         hard_delete: hardDelete ? 1 : 0
                     }
                 });
+        },
+
+        read: function(id) {
+            return $http.post('/resources/entries/' + id + '/read');
         }
     };
 
