@@ -1,11 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-	<div ng-app="blogApp">
-		<div ng-view>
-			Loading...
-		</div>
-	</div>
+    <div ng-view>
+        Loading...
+    </div>
 @stop
 
 @section('foot')

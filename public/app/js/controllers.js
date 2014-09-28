@@ -2,23 +2,30 @@
 
 var cachedEntries = null;
 
-angular.module('entryCtrl', ['entryService']).controller('EntryController', function($scope, $routeParams, $http, $location, Entry)
-{
+angular.module('mainCtrl', []).controller('MainController', function ($scope, $location) {
+    $scope.go = function ($event, path) {
+        $location.path(path);
+
+        $event.preventDefault();
+    };
+});
+
+angular.module('entryCtrl', ['entryService']).controller('EntryController', function ($scope, $routeParams, $http, $location, Entry) {
     $scope.entries = null;
     $scope.totalItems = 0;
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;
 
     $scope.entry = null;
-    $scope.delete = false;
-    $scope.action = 'restore';
-    $scope.errors = null;
+    $scope.formData = {
+        delete: false,
+        action: 'restore',
+        errors: null
+    };
 
-    $scope.changePage = function()
-    {
+    $scope.changePage = function () {
         var $entriesPromise = Entry.all($scope.currentPage);
-        $entriesPromise.success(function(data)
-        {
+        $entriesPromise.success(function (data) {
             $scope.entries = data.data;
             $scope.totalItems = data.total;
             $scope.itemsPerPage = data.per_page;
@@ -28,63 +35,49 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         });
     };
 
-    $scope.view = function($event, entryId)
-    {
+    $scope.view = function ($event, entryId) {
         $location.path('/entries/' + entryId);
 
         $event.preventDefault();
     };
 
-    $scope.edit = function($event, entryId)
-    {
+    $scope.edit = function ($event, entryId) {
         $location.path('/entries/' + entryId + '/edit');
 
         $event.preventDefault();
     };
 
-    $scope.save = function($event)
-    {
-        var onSaved = function(data)
-        {
-            if (data.errors)
-            {
-                $scope.errors = data.errors;
+    $scope.save = function ($event) {
+        var onSaved = function (data) {
+            if (data.errors) {
+                $scope.formData.errors = data.errors;
                 return false;
             }
 
-            if (data.entry)
-            {
-                $scope.entry = entry;
-                return true;
+            if (data.entry) {
+                $location.path('/entries/' + data.entry.id);
             }
         };
 
-        if ($scope.entry.id)
-        {
-            if ($scope.delete)
-            {
+        if ($scope.entry.id) {
+            if ($scope.formData.delete) {
                 // deleting
-                Entry.destroy($scope.entry.id).success(function(data)
-                {
-                    if (data.success)
-                    {
+                Entry.destroy($scope.entry.id).success(function (data) {
+                    if (data.success) {
                         $location.path('/entries');
                     }
-                    else
-                    {
+                    else {
                         // handle errors and stuff
                         onSaved(data);
                     }
                 });
             }
-            else
-            {
+            else {
                 // updating
                 Entry.update($scope.entry).success(onSaved);
             }
         }
-        else
-        {
+        else {
             // creating
             Entry.store($scope.entry).success(onSaved);
         }
@@ -92,27 +85,22 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         $event.preventDefault();
     };
 
-    $scope.delete = function($event, entryId)
-    {
+    $scope.delete = function ($event, entryId) {
         $location.path('/entries/' + entryId + '/delete');
 
         $event.preventDefault();
     };
 
-    $scope.hardDeleteOrRestore = function($event)
-    {
-        var onDone = function(data)
-        {
+    $scope.hardDeleteOrRestore = function ($event) {
+        var onDone = function (data) {
             $location.path('/entries');
         };
 
-        if ($scope.action == 'hard_delete')
-        {
+        if ($scope.formData.action == 'hard_delete') {
             // hard deleting
             Entry.destroy($scope.entry.id, true).success(onDone);
         }
-        else
-        {
+        else {
             // restoring
             var data = $scope.entry;
             data.restore = 1;
@@ -123,33 +111,26 @@ angular.module('entryCtrl', ['entryService']).controller('EntryController', func
         $event.preventDefault();
     };
 
-    if ($routeParams.id > 0)
-    {
+    if ($routeParams.id > 0) {
         $scope.entry = null;
 
         // try to get entry from cachedEntries
-        for (var i in cachedEntries)
-        {
-            if (cachedEntries[i].id == $routeParams.id)
-            {
+        for (var i in cachedEntries) {
+            if (cachedEntries[i].id == $routeParams.id) {
                 $scope.entry = cachedEntries[i];
             }
         }
 
-        if ($scope.entry === null)
-        {
+        if ($scope.entry === null) {
             // fetch it from server then...
-            Entry.get($routeParams.id).success(function(data)
-            {
+            Entry.get($routeParams.id).success(function (data) {
                 $scope.entry = data.entry;
             });
         }
     }
-    else
-    {
+    else {
         // /entries page, load the first page
-        if ($scope.entries === null)
-        {
+        if ($scope.entries === null) {
             $scope.changePage();
         }
     }

@@ -29,7 +29,7 @@ class EntryResourceManager extends \BaseController
      */
     public function store()
     {
-        if (!Auth::users()->canCreateEntry()) {
+        if (Auth::guest() OR !Auth::user()->canCreateEntry()) {
             App::abort(403);
         }
 
@@ -45,7 +45,7 @@ class EntryResourceManager extends \BaseController
 
         $entry = new Entry();
         $entry->title = $input['title'];
-        $entry->body = $title['body'];
+        $entry->body = $input['body'];
 
         if ($validator->fails()) {
             return Response::json(array('errors' => $validator->messages()));
@@ -59,7 +59,7 @@ class EntryResourceManager extends \BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
@@ -84,7 +84,7 @@ class EntryResourceManager extends \BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function update($id)
@@ -138,7 +138,7 @@ class EntryResourceManager extends \BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
