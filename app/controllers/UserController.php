@@ -11,12 +11,24 @@ class UserController extends BaseController
 
     public function showProfile()
     {
-        return View::make('user/view', array('user' => Auth::user()));
+        return $this->showView(Auth::user());
     }
 
     public function showView($user)
     {
-        return View::make('user/view', array('user' => $user));
+        if (Auth::guest()) {
+            $canEditUser = false;
+            $canEditRole = false;
+        } else {
+            $canEditUser = Auth::user()->canEditUser($user);
+            $canEditRole = Auth::user()->isAdministrator();
+        }
+
+        return View::make('user/view', array(
+            'user' => $user,
+            'canEditUser' => $canEditUser,
+            'canEditRole' => $canEditRole
+        ));
     }
 
     public function processSave()
