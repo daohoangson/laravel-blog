@@ -1,0 +1,28 @@
+<div class="row">
+	<form action="/entries/save" method="POST" class="col-md-12">
+
+		<div class="form-group" ng-class="formData.errors.title ? 'has-error' : ''">
+			<label for="ctrl_title">Title</label>
+			<input id="ctrl_title" type="text" name="title" ng-model="entry.title" placeholder="Enter entry title" class="form-control" />
+			<span class="help-block" ng-repeat="error in formData.errors.title">{{ error }}</span>
+		</div>
+
+		<div class="form-group" ng-class="formData.errors.body ? 'has-error' : ''">
+			<label for="ctrl_body">Body</label>
+			<textarea id="ctrl_body" name="body" class="form-control" placeholder="Enter body" rows="5" ng-model="entry.body"></textarea>
+			<span class="help-block" ng-repeat="error in formData.errors.body">{{ error }}</span>
+		</div>
+
+		<div class="alert alert-danger form-group checkbox" ng-if="entry.id">
+			<label>
+				<input type="checkbox" name="delete" value="1" ng-model="formData.delete" />
+				Soft Delete
+			</label>
+		</div>
+
+		<input type="submit" value="Save" class="btn btn-default" ng-click="save($event)" />
+
+		<input type="hidden" name="id" value="{{ entry.id }}" />
+
+	</form>
+</div>

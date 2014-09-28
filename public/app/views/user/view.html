@@ -1,0 +1,44 @@
+<div class="row">
+	<form action="/users/save" method="POST" class="col-sm-12 col-md-offset-4 col-md-4">
+
+    <div class="form-group" ng-class="formData.errors.email ? 'has-error' : ''">
+        <label for="ctrl_email">Email</label>
+
+        <input id="ctrl_email" type="text" name="email" ng-model="user.email" placeholder="Enter email" class="form-control" ng-if="user.canEditUser" />
+        <input id="ctrl_email" type="text" name="email" ng-model="user.email" class="form-control" disabled="disabled" ng-if="!user.canEditUser" />
+
+        <span class="help-block" ng-repeat="error in formData.errors.email">{{ error }}</span>
+    </div>
+
+    <div class="form-group" ng-class="formData.errors.password ? 'has-error' : ''" ng-if="user.canEditUser">
+        <label for="ctrl_password">Password</label>
+        <input id="ctrl_password" type="password" name="email" ng-model="user.password" placeholder="Enter new password if needed" class="form-control" />
+        <span class="help-block" ng-repeat="error in formData.errors.password">{{ error }}</span>
+    </div>
+
+	<div class="form-group" ng-if="user.canEditRole">
+        <label>Roles</label>
+
+		<div class="checkbox" ng-repeat="role in user.roles">
+			<label ng-if="user.canEditRole">
+                <input type="checkbox" name="roles[]" value="{{ role.id }}" ng-model="role.isUserRole" />
+                {{ role.title }}
+			</label>
+		</div>
+	</div>
+    <div class="form-group" ng-if="!user.canEditRole">
+        <label>Roles</label>
+
+        <ul>
+            <li ng-repeat="role in user.roles" ng-if="role.isUserRole">
+                {{ role.title }}
+            </li>
+        </ul>
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-default" ng-click="save($event)" ng-if="user.canEditUser" />
+
+	<input type="hidden" name="id" value="{{ user.id }}">
+
+	</form>
+</div>

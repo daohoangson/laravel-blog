@@ -1,0 +1,17 @@
+<div class="panel" ng-repeat="entry in entries" ng-class="entry.deleted_at ? 'panel-danger' : 'panel-primary'">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<span class="label label-danger" ng-show="entry.deleted_at">Soft Deleted</span>
+
+			<a ng-href="/entries/{{ entry.id }}" ng-click="view($event, entry.id)">{{ entry.title }}</a>
+		</h3>
+	</div>
+	<div class="panel-body">
+		<p>{{ entry.body }}</p>
+		
+		<div class="well well-sm" ng-include src="'/app/views/entry/info.html'">
+		</div>
+	</div>
+</div>
+
+<pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="changePage()"></pagination>

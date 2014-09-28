@@ -1,0 +1,25 @@
+<div class="row">
+	<form action="/entries/delete" method="POST" class="col-md-12">
+
+		<h1>{{ entry.title }}</h1>
+
+		<div class="alert alert-danger form-group checkbox">
+			<label>
+				<input type="radio" name="action" value="hard_delete" ng-model="formData.action" />
+				Hard Delete
+			</label>
+		</div>
+
+		<div class="alert alert-success form-group checkbox">
+			<label>
+				<input type="radio" name="action" value="restore" ng-model="formData.action" />
+				Restore
+			</label>
+		</div>
+
+		<input type="submit" value="Continue" class="btn btn-default" ng-click="hardDeleteOrRestore($event)" />
+
+		<input type="hidden" name="id" value="{{ entry.id }}" />
+
+	</form>
+</div>

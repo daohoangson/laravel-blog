@@ -9,9 +9,10 @@
 		{{ HTML::style('css/bootstrap-theme.css') }}
 		
 		<style>@yield('style')</style>
+		@yield('head')
 	</head>
 
-	<body>
+	<body ng-app="blogApp" ng-controller="MainController">
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -26,16 +27,16 @@
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="{{{ route('index') }}}">Index</a></li>
-						<li><a href="{{{ route('user_list') }}}">Users</a></li>
+						<li><a href="{{{ route('index') }}}" ng-click="go($event, '/entries')">Entries</a></li>
+						<li><a href="{{{ route('user_list') }}}" ng-click="go($event, '/users')">Users</a></li>
 						@if (Auth::guest())
 							<li>{{ HTML::link(route('login'), 'Login') }}</li>
-							<li>{{ HTML::link(route('register'), 'Register') }}</li>
+							<li>{{ HTML::link(route('register'), 'Register', array('ng-click' => 'go($event, \'register\')')) }}</li>
 						@else
 							@if (Auth::user()->canCreateEntry())
-								<li>{{ HTML::link(route('entry_create'), 'Create New Entry') }}</li>
+								<li>{{ HTML::link(route('entry_create'), 'Create New Entry', array('ng-click' => 'go($event, \'entries/create\')')) }}</li>
 							@endif
-							<li>{{ HTML::link(route('profile'), Auth::user()->email) }}</li>
+							<li>{{ HTML::link(route('profile'), Auth::user()->email, array('ng-click' => 'go($event, \'users/' . Auth::user()->id . '\')')) }}</li>
 							<li>{{ HTML::link(route('logout'), 'Logout') }}</li>
 						@endif
 					</ul>
@@ -49,5 +50,6 @@
 
 		{{ HTML::script('js/jquery-1.11.1.min.js') }}
 		{{ HTML::script('js/bootstrap.min.js') }}
+		@yield('foot')
 	</body>
 </html>

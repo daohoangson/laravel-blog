@@ -99,7 +99,7 @@ class EntryController extends BaseController
     {
         $entry = Entry::onlyTrashed()->where('id', '=', $id)->firstOrFail();
 
-        if (!Auth::user()->isAdministrator()) {
+        if (!Auth::user()->canDeleteEntry($entry)) {
             App::abort(403);
         }
 
@@ -110,7 +110,7 @@ class EntryController extends BaseController
     {
         $entry = Entry::onlyTrashed()->where('id', '=', $id)->firstOrFail();
 
-        if (!Auth::user()->isAdministrator()) {
+        if (!Auth::user()->canDeleteEntry($entry)) {
             App::abort(403);
         }
 
