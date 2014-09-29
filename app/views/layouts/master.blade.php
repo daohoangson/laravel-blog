@@ -44,7 +44,7 @@
 			</div>
 		</nav>
 
-		<div class="container" ng-view>
+		<div id="theView" class="container" ng-view>
 			@yield('content', 'Hmm, nothing?')
 		</div>
 

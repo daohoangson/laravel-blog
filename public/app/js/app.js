@@ -44,5 +44,9 @@ blogApp.config(function ($httpProvider, $routeProvider, $locationProvider) {
             controller: 'UserController'
         });
 
+    $routeProvider.otherwise({
+        template: jQuery('#theView').html()
+    })
+
     $locationProvider.html5Mode(true);
 });
