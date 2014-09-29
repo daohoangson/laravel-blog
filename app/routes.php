@@ -88,15 +88,14 @@ Route::get('', array(
     'as' => 'angular',
     'uses' => 'AngularController@show'
 ));
-Route::group(array('prefix' => 'resources'), function()
-{
+Route::group(array('prefix' => 'resources', 'before' => 'ajax'), function () {
     Route::resource('entries', 'EntryResourceManager', array('only' => array(
-            'index',
-            'store',
-            'show',
-            'update',
-            'destroy'
-        )));
+        'index',
+        'store',
+        'show',
+        'update',
+        'destroy'
+    )));
 
     Route::post('entries/{id}/read', array(
         'as' => 'resources.entries.read',
